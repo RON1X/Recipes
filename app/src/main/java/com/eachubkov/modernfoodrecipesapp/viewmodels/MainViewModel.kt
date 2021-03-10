@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.eachubkov.modernfoodrecipesapp.data.Repository
 import com.eachubkov.modernfoodrecipesapp.data.database.entity.FavoritesEntity
@@ -13,12 +12,15 @@ import com.eachubkov.modernfoodrecipesapp.data.database.entity.RecipesEntity
 import com.eachubkov.modernfoodrecipesapp.models.FoodJoke
 import com.eachubkov.modernfoodrecipesapp.models.FoodRecipe
 import com.eachubkov.modernfoodrecipesapp.util.NetworkResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.lang.Exception
+import javax.inject.Inject
 
-class MainViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MainViewModel @Inject constructor(
         private val repository: Repository,
         application: Application
 ): AndroidViewModel(application) {
