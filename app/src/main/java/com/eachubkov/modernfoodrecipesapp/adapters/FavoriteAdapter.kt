@@ -50,11 +50,13 @@ class FavoriteAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder = MyViewHolder.from(parent)
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        myViewHolders.add(holder)
+        rootView = holder.itemView.rootView
+
         val currentRecipe = favoriteRecipes[position]
         holder.bind(currentRecipe)
 
-        myViewHolders.add(holder)
-        rootView = holder.itemView.rootView
+        saveItemStateOnScroll(currentRecipe, holder)
 
         holder.binding.favoriteRowLayout.setOnClickListener {
             if (multiSelection) {
@@ -71,7 +73,7 @@ class FavoriteAdapter(
                 applySelection(holder, currentRecipe)
                 true
             } else {
-                true
+                false
             }
         }
     }
@@ -91,6 +93,14 @@ class FavoriteAdapter(
             }
             1 -> { mActionMode.title = "${selectedRecipes.size} item selected" }
             else -> { mActionMode.title = "${selectedRecipes.size} items selected" }
+        }
+    }
+
+    private fun saveItemStateOnScroll(currentRecipe: FavoritesEntity, holder: MyViewHolder){
+        if (selectedRecipes.contains(currentRecipe)) {
+            changeRecipeStyle(holder, R.color.cardBackgroundLightColor, R.color.colorPrimary)
+        } else {
+            changeRecipeStyle(holder, R.color.cardBackgroundColor, R.color.strokeColor)
         }
     }
 
